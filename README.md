@@ -3,7 +3,7 @@
 ***RestApi using ts***
 
 ## Install
-**Install on RDP/Windows ✅**
+**Install on Linux/windows ✅**
 
 Install [NodeJS](https://nodejs.org/en/download/)
 ```
