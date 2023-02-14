@@ -15,5 +15,5 @@ app.use('/', (req: Request, res: Response, nex: NextFunction) => {
 });
 
 app.listen(port, () => {
- console.log(`server runnning on port http://${host}:${port}`);
+ console.log(`server runnning on  http://${host}:${port}`);
 });
