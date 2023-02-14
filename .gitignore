@@ -1,2 +1,14 @@
-node_modules
+/node_modules
+
 .env
+
+#testing
+/coverage
+
+#misc
+DS_STORE
+.package-lock.json
+
+#production
+/build
+/dist
