@@ -1,3 +1,4 @@
+import { createProductValidation } from './../validation/product.validation';
 import { logger } from './utils/logger';
 import { type NextFunction, Router, type Request, type Response } from 'express';
 
@@ -9,11 +10,17 @@ ProductRouter.get('/', (req: Request, res: Response, next: NextFunction) => {
 });
 
 ProductRouter.post('/', (req: Request, res: Response, next: NextFunction) => {
+  const { error, value } = createProductValidation(req.body);
+  if (error != null) {
+    logger.error('ERR: product - create', error.details[0].message);
+    return res.status(422).send({ status: false, statusCode: 422, message: error.details[0].message, data: {} });
+  }
   logger.info('success add new a product');
   res.status(201).send({
     status: true,
 
     statusCode: 200,
-    data: req.body
+    message: 'Add product success ',
+    data: value
   });
 });

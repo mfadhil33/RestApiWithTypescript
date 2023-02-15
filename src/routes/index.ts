@@ -1,5 +1,5 @@
-import { ProductRouter } from './product';
-import { HealthRouter } from './health';
+import { ProductRouter } from './product.route';
+import { HealthRouter } from './health.route';
 import { type Application, type Router } from 'express';
 
 const _routes: Array<[string, Router]> = [
