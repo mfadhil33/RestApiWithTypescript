@@ -1,18 +1,17 @@
-import express, { type Application, type Request, type Response, type NextFunction } from 'express'
-import dotenv from 'dotenv'
-import bodyParser from 'body-parser'
-dotenv.config()
+import { routes } from './routes';
+import express, { type Application } from 'express';
+import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
 
-const app: Application = express()
-const port: number | undefined | string = process.env.PORT
-const host: string | undefined = process.env.HOST
+dotenv.config();
 
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
-app.use('/', (req: Request, res: Response, nex: NextFunction) => {
-  res.status(200).send({ data: 'Hello world' })
-})
+const app: Application = express();
+const port: number | undefined | string = process.env.PORT;
+const host: string | undefined = process.env.HOST;
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+routes(app);
 app.listen(port, () => {
-  console.log(`server runnning on  http://${host}:${port}`)
-})
+  console.log(`server runnning on  http://${host}:${port}`);
+});

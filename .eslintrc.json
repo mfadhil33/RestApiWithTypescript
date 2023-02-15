@@ -15,6 +15,10 @@
   "plugins": ["@typescript-eslint"],
   "ignorePatterns": ["**/build/*", "**/node_modules/*", "**/public/*", "**/tsconfig.json"],
   "rules": {
-    "@typescript-eslint/restrict-template-expressions": "off"
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/semi": "off",
+    "semi": [2, "always"],
+    "quotes": [2, "single", { "avoidEscape": true }],
+    "@typescript-eslint/explicit-function-return-type": "off"
   }
 }
