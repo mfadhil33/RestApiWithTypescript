@@ -36,4 +36,4 @@ npm run build ||
   false;
 )
 
-echo "success committing"
+echo "success commit"
