@@ -1,10 +1,10 @@
-import { logger } from './routes/utils/logger';
+import { logger } from './utils/logger';
 import { routes } from './routes';
 import express, { type Application } from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-
+import './utils/ConnectDB';
 dotenv.config();
 
 const app: Application = express();
