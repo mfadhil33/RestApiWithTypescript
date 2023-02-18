@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { createProduct, getProduct } from './../controllers/product.controller';
 import { Router } from 'express';
 

@@ -26,33 +26,29 @@ interface productType {
   size: string
 }
 export const getProduct = async (req: Request, res: Response) => {
-  const product: any = await getProducts();
-  // const {
-  //   params: { name }
-  // } = req;
-  // // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  // if (name) {
-  //   // eslint-disable-next-line array-callback-return
-  //   const filterProduct = products.filter((product) => {
-  //     if (product.name === name) {
-  //       return product;
-  //     }
-  //   });
-  //   if (filterProduct.length === 0) {
-  //     logger.info('Data not found');
-  //     return res.status(404).send({
-  //       status: false,
-  //       statusCode: 404,
-  //       data: {}
-  //     });
-  //   }
-  //   logger.info('Success get product');
-  //   res.status(200).send({ status: true, statusCode: 200, data: filterProduct[0] });
-  // }
-  // logger.info('success get product data');
-  // return res.status(200).send({
-  //   status: true,
-  //   statusCode: 200,
-  //   data: products
-  // });
+  const products: any = await getProducts();
+  const {
+    params: { name }
+  } = req;
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+  if (name) {
+    // eslint-disable-next-line array-callback-return
+    const filterProduct = products.filter((product: productType) => {
+      if (product.name === name) {
+        return product;
+      }
+    });
+    if (filterProduct.length === 0) {
+      logger.info('Data not found');
+      return res.status(404).send({
+        status: false,
+        statusCode: 404,
+        data: {}
+      });
+    }
+    logger.info('Success get product');
+    res.status(200).send({ status: true, statusCode: 200, data: filterProduct[0] });
+  }
+  logger.info('Success get product data');
+  return res.status(200).send({ status: true, statusCode: 200, data: products });
 };
