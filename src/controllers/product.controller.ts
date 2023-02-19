@@ -1,4 +1,4 @@
-import { getProducts, addProductToDB, getProductById, updateProductById } from './../services/product.service';
+import { getProducts, addProductToDB, getProductById, updateProductById, deleteProductById } from './../services/product.service';
 import { createProductValidation, updateProductValidation } from '../validations/product.validation';
 import { logger } from '../utils/logger';
 import { type Request, type Response } from 'express';
@@ -74,6 +74,25 @@ export const updateProduct = async (req: Request, res: Response) => {
     });
   } catch (err) {
     logger.error('ERR: product - updated', err);
+    return res.status(422).send({
+      status: false,
+      statusCode: 422,
+      message: err
+    });
+  }
+};
+
+export const deleteProduction = async (req: Request, res: Response) => {
+  const {
+    params: { id }
+  } = req;
+
+  try {
+    await deleteProductById(id);
+    logger.info('Success delete product');
+    return res.status(200).json({ status: true, statusCode: 200, message: 'Delete product success' });
+  } catch (err) {
+    logger.error('Err: product - delete = ', err);
     return res.status(422).send({
       status: false,
       statusCode: 422,
