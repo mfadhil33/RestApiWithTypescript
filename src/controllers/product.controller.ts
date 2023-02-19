@@ -1,54 +1,53 @@
-import { getProducts } from './../services/product.service';
+import { getProducts, addProductToDB, getProductById } from './../services/product.service';
 import { createProductValidation } from '../validations/product.validation';
 import { logger } from '../utils/logger';
 import { type Request, type Response } from 'express';
+import { v4 as uuidv4 } from 'uuid';
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 
-export const createProduct = (req: Request, res: Response) => {
+export const createProduct = async (req: Request, res: Response) => {
+  req.body.product_id = uuidv4();
   const { error, value } = createProductValidation(req.body);
   if (error != null) {
     logger.error('ERR: product - create', error.details[0].message);
     return res.status(422).send({ status: false, statusCode: 422, message: error.details[0].message, data: {} });
   }
-  logger.info('success add new a product');
-  res.status(201).send({
-    status: true,
+  try {
+    await addProductToDB(value);
+    logger.info('success add new a product');
+    res.status(201).send({
+      status: true,
 
-    statusCode: 200,
-    message: 'Add product success ',
-    data: value
-  });
+      statusCode: 201,
+      message: 'Add product success '
+    });
+  } catch (err) {
+    logger.error('ERR: product - create', err);
+    return res.status(422).send({
+      status: false,
+      statusCode: 422,
+      message: err
+    });
+  }
 };
 
-interface productType {
-  product_id: string
-  name: string
-  price: number
-  size: string
-}
 export const getProduct = async (req: Request, res: Response) => {
-  const products: any = await getProducts();
   const {
-    params: { name }
+    params: { id }
   } = req;
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  if (name) {
+  if (id) {
     // eslint-disable-next-line array-callback-return
-    const filterProduct = products.filter((product: productType) => {
-      if (product.name === name) {
-        return product;
-      }
-    });
-    if (filterProduct.length === 0) {
-      logger.info('Data not found');
-      return res.status(404).send({
-        status: false,
-        statusCode: 404,
-        data: {}
-      });
+    const product = await getProductById(id);
+    if (product == null) {
+      logger.info('product not found');
+      res.status(200).send({ status: false, statusCode: 404, message: `product with id ${id} not found` });
     }
     logger.info('Success get product');
-    res.status(200).send({ status: true, statusCode: 200, data: filterProduct[0] });
+    res.status(200).send({ status: true, statusCode: 200, data: product });
+  } else {
+    const products: any = await getProducts();
+    logger.info('Success get product data');
+    return res.status(200).send({ status: true, statusCode: 200, data: products });
   }
-  logger.info('Success get product data');
-  return res.status(200).send({ status: true, statusCode: 200, data: products });
 };
