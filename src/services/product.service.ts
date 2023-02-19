@@ -22,7 +22,7 @@ export const getProductById = async (id: String) => {
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const updateProductById = async (id: String, payload: ProductType) => {
-  return await productModel.findOneAndUpdate(
+  const result = await productModel.findOneAndUpdate(
     {
 
       product_id: id
@@ -30,8 +30,10 @@ export const updateProductById = async (id: String, payload: ProductType) => {
     { $set: payload }
 
   );
+  return result;
 };
 
 export const deleteProductById = async (id: string) => {
-  return await productModel.findOneAndDelete({ product_id: id });
+  const result = await productModel.findOneAndDelete({ product_id: id });
+  return result;
 };

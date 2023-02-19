@@ -63,7 +63,10 @@ export const updateProduct = async (req: Request, res: Response) => {
     return res.status(422).send({ status: false, statusCode: 422, message: error.details[0].message, data: {} });
   }
   try {
-    await updateProductById(id, value);
+    const result = await updateProductById(id, value);
+    if (result == null) {
+      return res.status(404).json({ status: false, statusCode: 404, message: `id ${id} not found` });
+    }
 
     logger.info('success updated a product');
     res.status(201).send({
@@ -88,7 +91,10 @@ export const deleteProduction = async (req: Request, res: Response) => {
   } = req;
 
   try {
-    await deleteProductById(id);
+    const result = await deleteProductById(id);
+    if (result == null) {
+      return res.status(404).json({ status: false, statusCode: 404, message: `id ${id} not found` });
+    }
     logger.info('Success delete product');
     return res.status(200).json({ status: true, statusCode: 200, message: 'Delete product success' });
   } catch (err) {
