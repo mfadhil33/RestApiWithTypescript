@@ -1,5 +1,5 @@
-import { getProducts, addProductToDB, getProductById } from './../services/product.service';
-import { createProductValidation } from '../validations/product.validation';
+import { getProducts, addProductToDB, getProductById, updateProductById } from './../services/product.service';
+import { createProductValidation, updateProductValidation } from '../validations/product.validation';
 import { logger } from '../utils/logger';
 import { type Request, type Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
@@ -41,7 +41,7 @@ export const getProduct = async (req: Request, res: Response) => {
     const product = await getProductById(id);
     if (product == null) {
       logger.info('product not found');
-      res.status(200).send({ status: false, statusCode: 404, message: `product with id ${id} not found` });
+      return res.status(200).send({ status: false, statusCode: 404, message: `product with id ${id} not found` });
     }
     logger.info('Success get product');
     res.status(200).send({ status: true, statusCode: 200, data: product });
@@ -49,5 +49,35 @@ export const getProduct = async (req: Request, res: Response) => {
     const products: any = await getProducts();
     logger.info('Success get product data');
     return res.status(200).send({ status: true, statusCode: 200, data: products });
+  }
+};
+
+export const updateProduct = async (req: Request, res: Response) => {
+  const {
+    params: { id }
+  } = req;
+
+  const { error, value } = updateProductValidation(req.body);
+  if (error != null) {
+    logger.error('ERR: product - create', error.details[0].message);
+    return res.status(422).send({ status: false, statusCode: 422, message: error.details[0].message, data: {} });
+  }
+  try {
+    await updateProductById(id, value);
+
+    logger.info('success updated a product');
+    res.status(201).send({
+      status: true,
+
+      statusCode: 201,
+      message: 'update product success '
+    });
+  } catch (err) {
+    logger.error('ERR: product - updated', err);
+    return res.status(422).send({
+      status: false,
+      statusCode: 422,
+      message: err
+    });
   }
 };

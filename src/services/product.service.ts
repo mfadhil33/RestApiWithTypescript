@@ -19,3 +19,15 @@ export const getProducts = async () => {
 export const getProductById = async (id: String) => {
   return await productModel.findOne({ product_id: id });
 };
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const updateProductById = async (id: String, payload: ProductType) => {
+  return await productModel.findOneAndUpdate(
+    {
+
+      product_id: id
+    },
+    { $set: payload }
+
+  );
+};
