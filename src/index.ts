@@ -5,8 +5,9 @@ import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import './utils/ConnectDB';
-dotenv.config();
 
+import deserializeToken from './middleware/deserializedToken';
+dotenv.config();
 const app: Application = express();
 const port: number | undefined | string = process.env.PORT;
 const host: string | undefined = process.env.HOST;
@@ -24,6 +25,8 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', '*');
   next();
 });
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+app.use(deserializeToken);
 app.listen(port, () => {
   logger.info(`server runnning on  http://${host}:${port}`);
 });
