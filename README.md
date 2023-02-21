@@ -7,7 +7,7 @@
 
 Install [NodeJS](https://nodejs.org/en/download/)
 <br>
-Install [TypeScript](https://www.typescriptlang.org/)
+Install [TypeScript](https://www.typescriptlang.org/download)
 ```
 $ git clone https://github.com/mfadhil33/RestApiWithTypescript
 $ cd RestApiWithTypescript
