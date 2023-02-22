@@ -47,7 +47,7 @@ export const createSession = async (req: Request, res: Response) => {
 
     if (!isValid) {
       return res.status(401).json({
-        status: 'fail',
+        status: false,
         statusCode: 401,
         message: 'Invalid email or password'
       });

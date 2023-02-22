@@ -9,7 +9,7 @@ export const signJWT = (payload: Object, options?: jwt.SignOptions | undefined) 
   });
 };
 
-export const verifyJwt = (token: string) => {
+export const verifyJWt = (token: string) => {
   try {
     const decoded: any = jwt.verify(token, CONFIG.jwt_public);
     return {
