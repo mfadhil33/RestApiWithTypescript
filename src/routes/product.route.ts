@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { requireUser, requireAdmin } from './../middleware/auth';
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { createProduct, deleteProduction, getProduct, updateProduct } from './../controllers/product.controller';
